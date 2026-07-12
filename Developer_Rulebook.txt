@@ -1,0 +1,127 @@
+Perfect — here’s the **integrated version** of your developer charter, keeping the same tone and structure but incorporating the **15-career matrix** directly into the “System Framework” section. It positions the careers as functional systems within the broader life simulation, not just content categories.
+
+---
+
+## **SmolLyfe – Development Goal and Mission Charter**
+
+### **Purpose**
+
+*SmolLyfe* is a systemic life simulator built to reproduce the complexity of human growth, emotion, and consequence through interacting mechanics — not scripted storytelling.
+The aim is to create a cohesive, data-driven world where every decision, relationship, and milestone dynamically alters the simulation’s trajectory.
+
+---
+
+### **Mission**
+
+To develop an evolving simulation where:
+
+* Systems communicate with each other in real time — no mechanic stands alone.
+* Lives feel organic because outcomes arise from internal logic, not fixed storylines.
+* The framework remains expandable, allowing new life systems, professions, and relationships to integrate seamlessly over time.
+
+---
+
+### **Core Design Pillars**
+
+1. **Interconnection** — Every domain (career, family, fame, relationships, health) feeds into the others through shared values such as stress, time, morality, and reputation.
+2. **Authenticity** — Emotional realism matters more than numerical optimization. Growth, loss, and chance all play equal narrative roles.
+3. **Scalability** — The simulation must remain modular, supporting future systems like economy, global events, or generational legacy without rewriting foundations.
+4. **Replayability through Emergence** — Events should arise from player context and history rather than repetition or branching scripts.
+5. **Balance over Bias** — All advantages have proportional risks; fame, wealth, or power introduce trade-offs that preserve realism.
+
+---
+
+### **Current Focus – The Living Life Update**
+
+This milestone established the ecosystem linking the player’s occupation, fame, relationships, and stress into a unified life loop.
+
+**Objectives Achieved**
+
+* Expanded professional paths with branching outcomes.
+* Integrated fame and management mechanics tied to lifestyle choices.
+* Introduced dynamic relationship networks that evolve with time, stress, and fame.
+* Implemented family progression, milestones, and cross-career storylines.
+* Refined stress logic and yearly life-tick progression for consistency across systems.
+
+**Outcome**
+The foundation now behaves as a single interdependent simulation rather than discrete subsystems.
+
+---
+
+### **System Framework – The Fifteen Career Ecosystem**
+
+Each career path is treated as a *narrative engine* with its own pressures, social reach, and moral spectrum.
+Careers interact with fame, relationships, and stress differently, producing unique emergent outcomes.
+
+| #      | Career                 | Loop Summary                                                  | Social & Emotional Interactions                                     | Sample Storylines                                           |
+| ------ | ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **1**  | Software Engineer      | Stable growth → burnout or innovation → possible founder arc. | Neglect from long work hours, creative highs, or imposter syndrome. | “Launches startup, strains marriage.”                       |
+| **2**  | Teacher / Professor    | Education → mentorship → tenure or disillusionment.           | Student bonds, moral guidance, underappreciation themes.            | “Affair with colleague,” “Former student surpasses you.”    |
+| **3**  | Doctor / Surgeon       | High stress, prestige, ethical tension.                       | Marriage strain, hospital drama, heroism vs. exhaustion.            | “Malpractice case,” “Saves patient’s child.”                |
+| **4**  | Police Officer         | Routine duty → promotion → moral gray zones.                  | Public trust, fear, partner loyalty.                                | “Officer under investigation,” “Community hero arc.”        |
+| **5**  | Detective              | Case progression system, corruption exposure.                 | Obsession, family neglect, moral conflict.                          | “Solved cartel case,” “Framed by superior.”                 |
+| **6**  | Politician             | Climb through influence, ethics, or corruption.               | Power marriages, scandal management, PR relationships.              | “Accepts bribe or exposes donors.”                          |
+| **7**  | Mafia                  | Crime, loyalty, betrayal loops.                               | Family replaced by crew, paranoia growth.                           | “Undercover lover is informant.”                            |
+| **8**  | NBA Athlete            | Fame, talent, injury management.                              | Jealous partners, fan culture, agent conflict.                      | “Career-ending injury,” “Hall of Fame induction.”           |
+| **9**  | NFL Athlete            | Physical risk and aggression cycles.                          | Family fear for health, fame burnout.                               | “Concussion scandal,” “Legacy mentor arc.”                  |
+| **10** | Influencer             | Viral fame, burnout, superficiality.                          | Fickle friendships, online rivalries, self-image decay.             | “Fake engagement for followers,” “Cancel culture comeback.” |
+| **11** | Streamer               | Performance under pressure, parasocial pitfalls.              | Fan obsession, income instability, burnout arcs.                    | “Charity stream redemption,” “Toxic chat meltdown.”         |
+| **12** | Singer / Musician      | Creative rise → fame → addiction or rebirth.                  | Artistic collaboration, fame fatigue.                               | “Hit single ruins marriage,” “Comeback album.”              |
+| **13** | Rapper                 | Expression, ego, street loyalty.                              | Conflict, authenticity battles, cultural impact.                    | “Feud turns violent,” “Mentorship redemption.”              |
+| **14** | Entrepreneur / Founder | Innovation, ambition, ethical decline.                        | Greed, philanthropy, or moral crises.                               | “IPO leads to lawsuit,” “Burnout memoir.”                   |
+| **15** | Author / Journalist    | Introspection, truth-seeking, controversy.                    | Solitude, ideology, public backlash.                                | “Expose brings fame and danger.”                            |
+
+**Career System Goals**
+
+* Stress, fame, and income scale differently per profession.
+* Workload influences health and relationships.
+* Each occupation can intersect with others through scandals, fame events, or investigations.
+* Career milestones unlock new life events and relationship branches.
+* Retirement, burnout, or moral collapse are valid narrative endpoints.
+
+---
+
+### **Next Development Stage – Network Expansion**
+
+Goal: Deepen systemic communication and emotional realism.
+
+**Planned Enhancements**
+
+* Progressive relationship decay and rekindling based on neglect or shared milestones.
+* NPC lifecycles, aging, and generational replacement.
+* Fame influence on personal life and public reputation.
+* Emotional health and stress consequences integrated with lifestyle choices.
+* Expanded milestone catalog to reflect turning points in family, career, and self.
+* UI simplification and more responsive event feedback for immersion.
+
+---
+
+### **Long-Term Roadmap**
+
+| Phase | Title             | Focus                      | Description                                          |
+| ----- | ----------------- | -------------------------- | ---------------------------------------------------- |
+| **1** | Foundation        | System cohesion            | Establish interconnected life simulation loops       |
+| **2** | Network Expansion | Relationship web           | Evolving NPCs, deeper family and emotional context   |
+| **3** | Public Worlds     | Fame, corruption, morality | Develop public image systems and social consequences |
+| **4** | Legacy Mode       | Generational continuity    | Traits, inheritance, and reputation across lives     |
+| **5** | Dynamic Society   | Macroscale simulation      | Economy, culture, and political ecosystems           |
+
+**Development Guidelines**
+
+* Every feature must interact with at least one existing mechanic.
+* Events and milestones should always contain cause, effect, and feedback.
+* Randomization is weighted by context — personality, fame, health, and stress.
+* Balance outcomes; success and loss must coexist in believable proportion.
+* Expand depth first, then breadth — reinforce what already exists before adding new systems.
+
+**Vision for Future Iterations**
+
+SmolLyfe will grow into a simulation where:
+
+* Each life feels distinct because outcomes emerge holistically.
+* NPCs remember, react, and evolve independently of the player.
+* Fame, wealth, and morality reshape how the world responds.
+* Generational play sustains legacy across multiple lifetimes.
+* Future modules — mental health, global events, or societal systems — integrate seamlessly into the same life loop.
+
+

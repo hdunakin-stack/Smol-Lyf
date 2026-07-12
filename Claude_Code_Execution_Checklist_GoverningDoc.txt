@@ -1,0 +1,59 @@
+SmolLyfe – Claude Code Execution Checklist (Governing Document)
+
+Purpose:
+Guide all Claude Code edits according to existing PatchNotes.js (current state) and DEVELOPMENT_ROADMAP.md (future direction).
+
+------------------------------------------------------
+1. Source of Truth Hierarchy
+- PatchNotes.js defines existing systems, handlers, and file structure.
+- DEVELOPMENT_ROADMAP.md defines what to build next.
+- Never remove working features; always extend existing patterns.
+------------------------------------------------------
+
+2. Architecture Alignment
+- Maintain folder structure: core/, domains/, components/, data/, utils/.
+- Logic belongs in core/domains; UI in components.
+- New systems (coworkers, assets, wellness, etc.) must mirror existing domain modules.
+
+------------------------------------------------------
+3. Life Object & Handlers
+- Follow current life object schema (as in PatchNotes).
+- Extend with new roadmap fields (reputation, assets, etc.) using the same shape.
+- Use consistent handler naming: handleXAction.
+- All history logs use the same narrative conventions.
+
+------------------------------------------------------
+4. Phase-Specific Implementation Rules
+- Phase 4: Befriend modal + status bars (UI polish only, no new logic).
+- Phase 5A: Coworkers & managers via domains/coworkers.js using existing NPC style.
+- Phase 5B: Extend cliques → networks via relationships.js.
+- Phase 6: Fame & reputation via fame.js (no duplicates of fame logic).
+- Phase 7: Assets system, passive income via assets.js integrated with existing money flow.
+- Later Phases: Add wellness, legacy, cross-domain consequences using eventEngine framework.
+
+------------------------------------------------------
+5. Event & Modal Discipline
+- Define events declaratively (IDs, conditions, effects).
+- Modals remain display-only and call domain logic via handlers.
+
+------------------------------------------------------
+6. Editing & Validation Rules
+Do NOT:
+- Delete or rename complete systems.
+- Break gameState shape.
+Do:
+- Keep imports clean, add roadmap feature comments, validate all new props/handlers.
+- Confirm load/save stability, event routing integrity, and consistent history messages.
+
+------------------------------------------------------
+Checklist (Pre-Commit):
+[ ] No syntax or import errors
+[ ] Logic/UI separation preserved
+[ ] Roadmap phases clearly labeled in code
+[ ] Handlers use consistent naming
+[ ] Save/load integrity maintained
+[ ] HistoryLog still outputs narratively consistent updates
+
+------------------------------------------------------
+Summary:
+All updates must expand—not rewrite—the current SmolLyfe systems. PatchNotes.js is reality; DEVELOPMENT_ROADMAP.md is trajectory. Code cohesively, document roadmap tags, preserve immersion.

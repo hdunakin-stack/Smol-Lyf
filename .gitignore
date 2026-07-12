@@ -1,0 +1,12 @@
+.codex/
+.agents/
+.expo/
+.expo-shared/
+node_modules/
+dist/
+build/
+Thumbs.db
+.DS_Store
+11.11.2025-Testing_Images/
+11.13.2025-Testing_Images/
+11.19.2025-Testing_Images/

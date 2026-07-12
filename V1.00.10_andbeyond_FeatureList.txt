@@ -1,0 +1,247 @@
+//Next Wave of Updates | Written 11.2025.2025 at 14:58 
+//Happy Anniversary (2 Years) to me and Layla!
+
+C:\Users\Hailey\Desktop\SmolLyfe_Game_Dev\11.11.2025-Testing_Images\4
+screenshots
+
+
+Bugs:
+Progress Bar needs to be resized with "Band"/"Sports" etc. Sits too close (Screenshot in folder).
+"Take it Easy" button is grey, should be blue to match other buttons.
+- Disable farming "Work harder" in clubs/sports. Only allowed 1 time per year.
+- Freelance Gigs: Remove "X left" from header. That doesn't need to be in there. Also, for the buttons "Find Tutoring Gig" "Find Lawn Care Gig" - this is redundant. Just name the buttons "Tutoring" "Lawn care"
+UI in "Occupation": View School just needs to say "School" and be a drop down like "My Activities". "Part-Time Jobs" etc all need to match "My Activities". Header with white font + bolded, above dropdown selections for sub-activites (Loners, Band, Tutoring, Lawn Care).
+- Friends: When friends are already friends and displaying in Relationships, remove ability to "Befriend". They are already friends. 
+- Elope/Marry: Don't allow person to marry until 18 years old.
+- "Ask for Money": Don't allow users to farm $$$ for more than 3 interactions per NPC.
+
+
+
+
+Cliques / NPC Social:
+Strengths:
+
+Clique tags expand the relationshipGraph naturally without bloating it.
+
++10 % bond gain reinforces school immersion and friendship arcs.
+
+Suggestions:
+Extend clique affinity into adulthood as a “network origin” tag—old classmates resurfacing later (politics, fame, etc.). Life events can spawn from these. 
+
+Keep social bonding calculations lightweight; reuse updateBond() instead of custom increments for hub consistency. This can help tie in with "Influence" and "Happiness" attributes. Maybe slight increases for both when Life Events with positive former bonds occur.
+
+Why: Cliques are seeds for adult relationships.
+Add:
+
+Alumni reunions, old-friend cameos, “friend turned manager or rival” events.
+
+Network influence mechanic: fame or wealth spreads faster through connected NPCs.
+
+Outcome: Feeds replayability and nostalgia; reinforces legacy storytelling.
+
+Legacy Mode Prototype
+
+Why: Your structure already supports it (domains/legacy.js).
+Add:
+
+Children aging simulation: blend parent stats + reputation.
+
+Playable heir toggle: continue game post-death with inherited fame/money/debts.
+
+Public perception memory: “Child of disgraced politician” vs “Beloved athlete’s son.”
+
+Outcome: Converts each life into generational storytelling.
+
+---
+
+UI:
+Suggestions:
+Keep color and hierarchy consistent with other panels (Activities, Relationships).
+
+Consider unifying progress-bar and stat-bar components under a shared StatusBars.js submodule to avoid duplicated logic.
+---
+Workplace Ecosystem Expansion
+
+Why: You now have functioning careers; the next step is to humanize them.
+Add:
+
+Coworker Generation System:
+Use relationshipGraph.addRelationship() to spawn 3-6 NPCs tagged coworker per job tier.
+Track morale, gossip, rivalries, mentorship.
+
+Workplace Events:
+"Office Romance", "Promotion Controversy", "Company Retreat".
+Each feeds stress/fame loops and reputation.
+
+Manager Hierarchy:
+Randomly assign manager quality → modifies promotion rate and stress gain.
+
+Outcome: Careers feel social and alive; relationships influence promotions and burnout.
+---
+Fame + Public Image Layer (Phase 4 Precursor)
+
+Why: Special careers are fame-ready; they need audience feedback.
+Add:
+
+Reputation Meter: public sentiment affected by scandals, charity, crime.
+
+Media Events:
+Magazine interviews, talk-show appearances, cancel-culture arcs.
+
+PR Decisions:
+“Apologize” vs. “Defend” → dynamic fame/stress trade-offs.
+
+Fan & Critic NPCs:
+Light-weight nodes in relationshipGraph that influence fame velocity.
+
+Outcome: Fame stops being a number and becomes a social environment.
+---
+Economic & Asset Entryway
+
+Side Investments:
+Startup funding, crypto gamble, real-estate flips → passive-income mechanics using
+--
+Mental & Physical Wellness Layer
+
+Why: Stress is central; expand its consequences.
+Add:
+
+Health Attribute Integration: fatigue, injury recovery, burnout.
+
+Therapy / Vacation Activities: reduce stress, cost money, improve relationships.
+
+Breakdown Events: trigger midlife-crisis milestone, career switch arcs.
+
+Outcome: Emotional realism; makes long careers narratively dynamic.
+
+Why: You can now cross-pollinate events easily.
+Add:
+
+“Detective discovers your politician’s corruption”
+
+“Athlete injured by mob attack from past crime ties”
+
+“Influencer exposed by journalist spouse”
+Build these as multi-domain triggers in eventEngine, referencing multiple hubs.
+
+Outcome: Feels like one shared world, not disconnected arcs.
+---
+Why: You track milestones; make them visible.
+Add:
+
+“Yearly Reflection” summary modal.
+
+Aging effects: slower stat growth, health decline, nostalgia events.
+
+Retirement transitions tied to wealth & legacy readiness.
+
+Outcome: Life feels finite and cyclical—true “memoir generator” tone.
+--- 
+Quality of Life Updates:
+
+When user successfully or unsuccessfully befriends someone, give a popup window (like the university option, or an event) "[NPC] didn't find you interesting and declined your follow request." "[NPC] said [he/she] wanted to be friends a while ago! We're friends now!" then redirect back to previous window (likely Activities or Occupation).
+
+
+
+--------------------------------
+Perfect timing — this next-wave expansion should feel like **SmolLyfe v1.10+**, a “Systems Awakening” update that deepens consequence and interconnection.
+Below are **event-matrix style tables** for each section (excluding UI), written in a dev-ready structure so they can be lifted straight into your event JSON or implementation guide.
+
+---
+
+## 🧩 **Cliques / NPC Social Expansion**
+
+| Event ID           | Trigger                        | Popup Text (Example)                                               | Stat / Relationship Effects                     | Domain Hooks        |
+| ------------------ | ------------------------------ | ------------------------------------------------------------------ | ----------------------------------------------- | ------------------- |
+| `CLQ_REUNION_01`   | Age > 25 & has “classmate” tag | “Your old classmates organized a reunion. Do you attend?”          | +Bond (all classmates) / +Happiness             | relationships, fame |
+| `CLQ_MANAGER_02`   | FameCareer active + old friend | “A former classmate reaches out—they’re now a talent manager.”     | Option: Hire (+FameVelocity), Decline (+Stress) | fame, relationships |
+| `CLQ_RIVAL_03`     | Two classmates in same career  | “An old rival from school lands a promotion before you.”           | -Bond, +Ambition                                | occupation, fame    |
+| `CLQ_ROMANCE_04`   | Bond > 70, single              | “A spark rekindles with your old classmate at a reunion.”          | +Romance node created, +Happiness               | relationships       |
+| `CLQ_NOSTALGIA_05` | Stress > 60                    | “You scroll through old photos from school, missing simpler days.” | -Stress, +Happiness                             | attributes          |
+
+---
+
+## 🏢 **Workplace Ecosystem Expansion**
+
+| Event ID              | Trigger                                | Popup Text (Example)                                                      | Stat / Relationship Effects                     | Domain Hooks              |
+| --------------------- | -------------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------- |
+| `WORK_GOSSIP_01`      | Coworker node active                   | “Rumors circulate that you’re up for promotion.”                          | +Stress, random ±Bond with coworkers            | relationships             |
+| `WORK_ROMANCE_02`     | Attraction > 70 with coworker          | “You share late nights at the office with a colleague. Do you act on it?” | +Romance risk, +Stress if married               | relationships, fame       |
+| `WORK_MENTOR_03`      | Manager quality = high                 | “Your manager praises your performance and offers mentorship.”            | +Performance, +Morale                           | occupation                |
+| `WORK_CONTROVERSY_04` | Performance > 80 & low manager quality | “Your manager takes credit for your project in front of the team.”        | -Morale, Option to Confront → stress/fame swing | occupation, fame          |
+| `WORK_RETREAT_05`     | Random yearly                          | “Your company hosts an off-site retreat.”                                 | -Stress, +Bond with coworkers                   | attributes, relationships |
+
+---
+
+## 🌟 **Fame + Public Image Layer**
+
+| Event ID            | Trigger                  | Popup Text (Example)                                    | Stat / Relationship Effects                                       | Domain Hooks        |
+| ------------------- | ------------------------ | ------------------------------------------------------- | ----------------------------------------------------------------- | ------------------- |
+| `FAME_INTERVIEW_01` | Fame > 40                | “A magazine wants an interview. Accept or decline?”     | Accept: +Fame, +Stress / Decline: −FameDecay                      | fame                |
+| `FAME_SCANDAL_02`   | Fame > 60 & low morality | “Leaked footage sparks online outrage.”                 | −Reputation, −Bond (family), +Stress                              | fame, relationships |
+| `FAME_CHARITY_03`   | Fame > 50                | “You’re invited to host a charity gala.”                | +Reputation, -Cash, +Bond (public)                                | fame, assets        |
+| `FAME_TALKSHOW_04`  | Fame > 70                | “Talk show invites you to discuss your latest project.” | Option: Be humble (+Reputation) / Arrogant (+Stress, -Reputation) | fame                |
+| `FAME_FAN_05`       | Fame > 60                | “An obsessed fan starts showing up uninvited.”          | +Stress, chance of relationship event                             | fame, relationships |
+
+---
+
+## 💰 **Economic & Asset Entryway**
+
+| Event ID           | Trigger           | Popup Text (Example)                                    | Stat / Relationship Effects   | Domain Hooks          |
+| ------------------ | ----------------- | ------------------------------------------------------- | ----------------------------- | --------------------- |
+| `ASSET_INVEST_01`  | Cash > 100k       | “You’re offered a chance to invest in a tech startup.”  | 50/50: +NetWorth or −Cash     | assets                |
+| `ASSET_CRYPTO_02`  | FameCareer active | “Your fans convince you to buy crypto during the hype.” | +Stress, random ±NetWorth     | assets, fame          |
+| `ASSET_FLIP_03`    | Owns property     | “A developer offers to buy your home for profit.”       | +Cash, −Asset, +Happiness     | assets                |
+| `ASSET_PARTNER_04` | Married           | “Your spouse wants to open a small business together.”  | +Bond, +Stress, ±Cash outcome | relationships, assets |
+| `ASSET_TAX_05`     | NetWorth > 1M     | “The IRS audits your finances.”                         | −Cash, +Stress                | assets, fame          |
+
+---
+
+## 🧠 **Mental & Physical Wellness Layer**
+
+| Event ID             | Trigger                 | Popup Text (Example)                                | Stat / Relationship Effects              | Domain Hooks              |
+| -------------------- | ----------------------- | --------------------------------------------------- | ---------------------------------------- | ------------------------- |
+| `WELL_BURNOUT_01`    | Stress > 80             | “You collapse from exhaustion after a long week.”   | −Health, +Stress, triggers TherapyUnlock | attributes                |
+| `WELL_VACATION_02`   | Stress > 60 & Cash > 5k | “You book a spontaneous vacation.”                  | −Stress, +Happiness, −Cash               | attributes, relationships |
+| `WELL_THERAPY_03`    | Midlife (Age 40–55)     | “You consider therapy to process your burnout.”     | −Stress, +Morality, +Health              | attributes                |
+| `WELL_INJURY_04`     | Athlete or physical job | “You pull a muscle while training.”                 | −Health, −Performance                    | occupation                |
+| `WELL_REFLECTION_05` | Fame > 50 & Stress > 70 | “You publicly announce a hiatus for mental health.” | +Reputation, −FameVelocity               | fame                      |
+
+---
+
+## 🧬 **Legacy Mode Prototype**
+
+| Event ID                | Trigger                         | Popup Text (Example)                                   | Stat / Relationship Effects          | Domain Hooks          |
+| ----------------------- | ------------------------------- | ------------------------------------------------------ | ------------------------------------ | --------------------- |
+| `LEG_CHILDGROWS_01`     | Child Age = 18                  | “Your child graduates and moves out.”                  | +Pride (+Happiness), -BondDecay slow | relationships, legacy |
+| `LEG_HEIR_02`           | Player dies, has children       | “Your story ends—but your child inherits your legacy.” | Transfer stats to heir               | legacy                |
+| `LEG_PUBLICPERCEPT_03`  | Parent Fame > 70                | “Your child is interviewed about your legacy.”         | +ChildFame, −Privacy                 | fame, legacy          |
+| `LEG_SCANDALINHERIT_04` | Parent scandal active           | “Your child faces bullying over your past.”            | −Happiness, +Stress                  | fame, relationships   |
+| `LEG_RECONCILE_05`      | Estranged child, player old age | “Your child visits after years apart.”                 | +Bond, +Happiness                    | relationships, legacy |
+
+---
+
+## 🔗 **Cross-Domain Event Engine 2.0**
+
+| Event ID                      | Trigger                            | Popup Text (Example)                                           | Stat / Relationship Effects                             | Domain Hooks             |
+| ----------------------------- | ---------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------- | ------------------------ |
+| `CROSS_DET_POLITICIAN`        | Detective & Politician both active | “You uncover documents linking a senator to organized crime.”  | Option: Expose (risk fame loss) / Stay silent (+Stress) | crime, detective, fame   |
+| `CROSS_MOB_ATHLETE`           | Mafia + Athlete active             | “A mob debt collector targets you after a teammate’s scandal.” | −Cash, −Health, +Fame                                   | crime, occupation        |
+| `CROSS_INFLUENCER_JOURNALIST` | Influencer + Journalist partner    | “Your spouse leaks your private messages to the press.”        | −Bond, −Reputation                                      | fame, relationships      |
+| `CROSS_DETECTIVE_FAMILY`      | Detective + Child node             | “Your child is suspected in your current case.”                | −Happiness, moral choice arc                            | detective, relationships |
+| `CROSS_RAPPER_POLITICIAN`     | Fame > 70 both nodes               | “A rapper’s lyrics accuse you of corruption.”                  | ±Fame, +Stress                                          | fame, crime              |
+
+---
+
+## ⏳ **Aging & Reflection Cycle**
+
+| Event ID               | Trigger                | Popup Text (Example)                                        | Stat / Relationship Effects                 | Domain Hooks          |
+| ---------------------- | ---------------------- | ----------------------------------------------------------- | ------------------------------------------- | --------------------- |
+| `AGE_REFLECTION_01`    | Every 10 years         | “You reflect on the past decade.”                           | Display key milestones; small +Wisdom bonus | milestones            |
+| `AGE_HEALTHDECLINE_02` | Age > 50               | “You feel your body slowing down.”                          | −Health, −Stress                            | attributes            |
+| `AGE_RETIREMENT_03`    | Age > 60 & job active  | “You consider retiring from your career.”                   | +Happiness, −Income                         | occupation            |
+| `AGE_NOSTALGIA_04`     | Old age & has children | “Your grandchildren visit, filling the home with laughter.” | +Happiness, +LegacyScore                    | relationships, legacy |
+| `AGE_FINALYEAR_05`     | Health < 10            | “You feel your story nearing its end.”                      | triggers legacy transfer                    | legacy                |
+
+
+

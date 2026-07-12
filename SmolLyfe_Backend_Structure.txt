@@ -1,0 +1,401 @@
+SmolLyfe_Architecture_Plan_v1.2
+(Attributes + Assets + Unified Occupation System — addiction removed, clean UI/logic separation)
+
+Purpose
+Modernize and modularize the SmolLyfe codebase into hubs (data/logic) and panels (UI).
+This version removes the addiction domain, merges Careers/School/Occupation under one unified domain, and enforces strict separation between logic and interface.
+
+---
+
+## ROOT STRUCTURE
+
+SmolLyfe_Game_Dev/
+src/
+App.js
+core/
+gameState.js
+attributesHub.js
+assetsHub.js
+identity.js
+npc.js
+random.js
+milestones.js
+eventEngine.js
+relationshipGraph.js
+time.js
+domains/
+activities.js
+relationships.js
+occupation.js
+fame.js
+crime.js
+detective.js
+legacy.js
+components/
+modals/
+CharCreationModal.js
+InteractionModal.js
+panels/
+ActivitiesPanel.js
+AssetsPanel.js
+OccupationPanel.js
+RelationshipsPanel.js
+FamePanel.js
+layout/
+NavigationTabs.js
+StatusBars.js
+HistoryLog.js
+config/
+names.js
+locations.js
+careers.js
+activities.js
+relationships.js
+fame.js
+crime.js
+assets.js
+events/
+lifeEvents.json
+careerEvents.json
+relationshipEvents.json
+fameEvents.json
+crimeEvents.json
+globalEvents.json
+utils/
+formatting.js
+arrays.js
+styles/
+AppStyles.js
+docs/
+SmolLyfe_Architecture_Plan_v1.2.txt
+Design_LivingLifePatch.txt
+SystemsFusionMatrix.txt
+
+---
+
+1. APP.JS (MASTER CONTROLLER)
+
+---
+
+Role: the orchestrator.
+
+* Owns React state for life, activeTab, selectedPerson, modals, etc.
+* Delegates logic to domains and hubs.
+* Never contains game rules directly.
+
+Flow:
+
+1. Initialize life via core/gameState.js.
+2. Handle button clicks (AgeUp, Activity, Relationship, etc.) by calling corresponding domain functions.
+3. Pass results to `setLife()` and update panels.
+
+Example:
+
+```js
+setLife(prev => occupation.applyWorkYear(prev))
+```
+
+---
+
+2. CORE HUBS (FOUNDATIONAL LOGIC)
+
+---
+
+### core/gameState.js
+
+Central authority over the life object.
+Manages:
+
+* creation, aging, cloning
+* initialization of attributes, relationships, assets
+* top-level orchestration for eventEngine, milestones, etc.
+
+Exports:
+
+* createNewLife(formData)
+* ageUp(life)
+* applyYearlyTick(life)
+* addHistory(life, text)
+* cloneLife(life)
+
+---
+
+### core/attributesHub.js
+
+Unified stat + skill + trait handler.
+
+Handles:
+
+* Core stats: Intelligence, Attractiveness, Health, Stress, Fame
+* Skills: Athleticism, Creativity, Technical, Charisma, Leadership, Discipline, etc.
+* Hidden traits: Morality, Empathy, Ambition, Luck, SexualityProfile, FameHunger
+
+Exports:
+
+* initAttributes(origin, formData)
+* modifyStat(life, key, delta)
+* modifySkill(life, key, delta)
+* applyStress(life, delta)
+* applyFame(life, delta)
+* getStatWeights(life, context)
+* deriveEventBias(life)
+
+All domain probability logic references this hub, never direct state mutation.
+
+---
+
+### core/assetsHub.js
+
+Manages wealth and possessions.
+
+life.assets structure:
+
+```
+assets: {
+  cash,
+  owned: [
+    { id, name, type, category, value, upkeep, flags: { mortgaged, gifted, inherited } }
+  ],
+  netWorth
+}
+```
+
+Exports:
+
+* initAssets(origin)
+* recalcNetWorth(life)
+* purchaseAsset(life, assetId)
+* sellAsset(life, assetId)
+* giftAsset(life, assetId, target)
+* applyUpkeep(life)
+
+---
+
+### core/relationshipGraph.js
+
+Stores and manages every NPC connection.
+
+Each node:
+
+```
+{
+  id, name, role, bond, attraction, influence,
+  familiarityYears, visibility, moralityCompat,
+  flags: { ex, family, manager, coworker },
+  history: []
+}
+```
+
+Exports:
+
+* initFamily(life)
+* addRelationship(life, node)
+* updateBond(life, id, delta)
+* decayAll(life)
+* getByRole(life, role)
+
+---
+
+### core/eventEngine.js
+
+Heart of the yearly tick and event logic.
+
+* Reads all hubs.
+* Applies weighted random event generation based on:
+
+  * Attributes
+  * Career
+  * Fame
+  * Relationships
+  * Milestones
+* Writes events to life.history and milestones.
+
+---
+
+### core/milestones.js
+
+Tracks key life markers.
+
+* addMilestone(life, type, metadata)
+* hasMilestone(life, type)
+* queryMilestones(life, filter)
+
+---
+
+### core/time.js
+
+Handles passage of time.
+
+* incrementYear(life)
+* advanceNPCs(life)
+* handleLifeStages(life)
+
+---
+
+3. DOMAINS (SYSTEM-SPECIFIC LOGIC)
+
+---
+
+Domains are thin layers that call the hubs.
+Each function: `(life, params) => updatedLife`.
+
+### domains/activities.js
+
+Handles all non-career actions.
+
+* applyActivity(life, activityType)
+* applyHobby(life, hobbyType)
+* adjustStats via attributesHub
+
+---
+
+### domains/occupation.js
+
+Unified School + Career domain.
+Handles:
+
+* Education progression (school, university)
+* Career path (choose, work, promote, burn out)
+* Work hours, stress, pay, reputation
+* Links to fame.js, relationships.js for work interactions
+
+Exports:
+
+* applyEducation(life, schoolId)
+* applyCareerChoice(life, jobId)
+* applyWorkYear(life)
+* handlePromotion(life)
+* handleBurnout(life)
+
+---
+
+### domains/fame.js
+
+Public image engine.
+
+* Fame tiers, managers, sponsorships, scandals
+* Hooks into relationships (public exposure)
+* Hooks into occupation and assets for PR stories
+
+---
+
+### domains/relationships.js
+
+Handles emotional and social systems.
+
+* applyInteraction(life, id, action)
+* handleRomanticLifecycle(life)
+* handleMarriage(life)
+* handleDivorce(life)
+* addChild(life, partnerId)
+* resolveFamilyAging(life)
+
+---
+
+### domains/crime.js
+
+Risk/reward morality systems (corruption, theft, bribery).
+Cross-linked with detective.js and fame.js.
+
+---
+
+### domains/detective.js
+
+Case-based storyline.
+
+* updateCaseProgress(life)
+* triggerInvestigationEvents(life)
+* crossPaths with crime domain.
+
+---
+
+### domains/legacy.js
+
+Inheritance and generational progression.
+
+* generateChild(life)
+* transferLegacy(life)
+* setupNextGeneration(life)
+
+---
+
+4. COMPONENTS (UI ONLY)
+
+---
+
+All components are pure presentation and event emitters.
+
+* **modals/**: for character creation, interactions
+* **panels/**: one per life domain
+
+  * ActivitiesPanel.js
+  * AssetsPanel.js
+  * OccupationPanel.js (includes school + careers)
+  * RelationshipsPanel.js
+  * FamePanel.js
+* **layout/**: global layout components (tabs, bars, history log)
+
+Each panel:
+
+* Receives life + callbacks (e.g., `onChooseCareer`, `onActivity`)
+* Calls back to App, which routes to the correct domain
+
+---
+
+5. CONFIG (DATA CONTENT)
+
+---
+
+Centralized data definitions:
+
+* careers.js — defines the 15 paths, stress, fame modifiers, pay bands
+* activities.js — maps actions to stats
+* fame.js — tiers, thresholds, manager types
+* crime.js — criminal archetypes, events
+* assets.js — purchasable items, values
+* events/*.json — dynamic event templates
+* relationships.js — text templates for interactions
+* names.js / locations.js — data sources for identity generation
+
+No random data lives in domains—only references to these configs.
+
+---
+
+6. DEVELOPMENT ROADMAP
+
+---
+
+**Phase 1:**
+Migrate core/gameState and attributesHub.
+Connect to current App.js logic.
+
+**Phase 2:**
+Implement assetsHub and relationshipGraph.
+Wire to activities, occupation, relationships.
+
+**Phase 3:**
+Implement fame.js, crime.js, detective.js using hubs.
+Refactor eventEngine to unify yearly events.
+
+**Phase 4:**
+Extract panels + modals out of App.js.
+Keep UI clean and driven by props.
+
+**Phase 5:**
+Integrate milestones + legacy loops.
+
+---
+
+7. PRINCIPLES
+
+---
+
+* App.js = orchestration only.
+* Domains = rule logic only.
+* Hubs = data integrity + shared mechanics.
+* Config = static world data.
+* Components = UI and interactivity only.
+* No single file should contain both logic and JSX.
+* Every modification to stats, assets, or relationships must go through a hub.
+
+This version reflects your current direction: focused, scalable, readable, and ready for Claude Code to extend modularly.
