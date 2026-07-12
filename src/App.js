@@ -134,8 +134,18 @@ export default function App() {
 
   // Load lives on mount
   useEffect(() => {
-    const saved = loadLivesFromStorage();
-    setAllLives(saved);
+    let mounted = true;
+    loadLivesFromStorage().then((saved) => {
+      if (mounted) {
+        setAllLives(saved);
+      }
+    }).catch((error) => {
+      console.error("Failed to initialize saved lives:", error);
+    });
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {

@@ -1,6 +1,29 @@
 // Storage utilities for saving/loading lives
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { normalizeAppearance } from "../domains/characterAppearance.js";
+
+const STORAGE_KEY = "smollyfe_lives";
+
+function hasLocalStorage() {
+  return typeof localStorage !== "undefined" && localStorage !== null;
+}
+
+async function persistLives(lives) {
+  const serialized = JSON.stringify(lives);
+  if (hasLocalStorage()) {
+    localStorage.setItem(STORAGE_KEY, serialized);
+    return;
+  }
+  await AsyncStorage.setItem(STORAGE_KEY, serialized);
+}
+
+async function readPersistedLives() {
+  if (hasLocalStorage()) {
+    return localStorage.getItem(STORAGE_KEY);
+  }
+  return AsyncStorage.getItem(STORAGE_KEY);
+}
 
 function buildFallbackLifeId(life, index = 0) {
   const namePart = [life?.firstName, life?.lastName].filter(Boolean).join("-").toLowerCase() || "life";
@@ -41,27 +64,24 @@ export function saveLifeToStorage(life, allLives) {
       lives.push(normalizedLife);
     }
 
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('smollyfe_lives', JSON.stringify(lives));
-    }
+    persistLives(lives).catch((error) => {
+      console.error("Failed to persist life:", error);
+    });
     return lives;
   } catch (e) {
-    console.error('Failed to save life:', e);
+    console.error("Failed to save life:", e);
     return allLives || [];
   }
 }
 
-export function loadLivesFromStorage() {
+export async function loadLivesFromStorage() {
   try {
-    if (typeof localStorage !== 'undefined') {
-      const saved = localStorage.getItem('smollyfe_lives');
-      const lives = saved ? normalizeLives(JSON.parse(saved)) : [];
-      localStorage.setItem('smollyfe_lives', JSON.stringify(lives));
-      return lives;
-    }
-    return [];
+    const saved = await readPersistedLives();
+    const lives = saved ? normalizeLives(JSON.parse(saved)) : [];
+    await persistLives(lives);
+    return lives;
   } catch (e) {
-    console.error('Failed to load lives:', e);
+    console.error("Failed to load lives:", e);
     return [];
   }
 }
@@ -69,12 +89,12 @@ export function loadLivesFromStorage() {
 export function deleteLifeFromStorage(lifeId, allLives) {
   try {
     const lives = normalizeLives(allLives).filter((life) => life.lifeId !== lifeId);
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('smollyfe_lives', JSON.stringify(lives));
-    }
+    persistLives(lives).catch((error) => {
+      console.error("Failed to persist deletion:", error);
+    });
     return lives;
   } catch (e) {
-    console.error('Failed to delete life:', e);
+    console.error("Failed to delete life:", e);
     return allLives;
   }
 }

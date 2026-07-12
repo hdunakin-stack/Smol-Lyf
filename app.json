@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "SmolLyfe",
+    "slug": "smol-lyf",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "userInterfaceStyle": "light",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    }
+  }
+}
